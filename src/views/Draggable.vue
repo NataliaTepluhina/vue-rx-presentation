@@ -1,7 +1,7 @@
 <template>
     <v-layout row wrap>
         <v-flex md4 sm6 offset-md1>
-            <div class="draggable-container elevation-5">
+            <div class="draggable-container elevation-5" ref="leftList">
                 <v-card
                         class="list-item"
                         v-stream:mousedown.native="{subject: mouseDown$, data: item}"
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-    import {flatMap, map, takeUntil} from 'rxjs/operators'
+    import {flatMap, map, takeUntil, debounceTime} from 'rxjs/operators'
     import {fromEvent} from 'rxjs/observable/fromEvent';
 
     export default {
@@ -80,17 +80,18 @@
         subscriptions() {
             const mouseMove$ = fromEvent(document, 'mousemove');
             const mouseDrag$ = this.mouseDown$
-                .do(event => event.data.draggable = true)
                 .pipe(
                     flatMap(md => {
                         const
                             startX = md.event.offsetX,
                             startY = md.event.offsetY,
-                            target = md.event.target;
+                            target = md.event.target,
+                            data =  md.data;
 
                         return mouseMove$.pipe(
                             map(mm => {
                                 mm.preventDefault();
+                                data.draggable = true;
                                 return {
                                     left: mm.clientX - startX,
                                     top: mm.clientY - startY,
@@ -107,12 +108,16 @@
                     pos.target.parentElement.style.left = pos.left + 'px';
                 }),
                 drop: this.mouseUp$.do(event => {
+                    event.data.draggable = false;
                     const box = event.event.target.parentElement.getBoundingClientRect();
-                    if (box.right > this.$refs.rightList.getBoundingClientRect().left) {
+                    if (this.leftList.indexOf(event.data) > -1 && box.right > this.$refs.rightList.getBoundingClientRect().left) {
                         this.leftList.splice(this.leftList.indexOf(event.data), 1);
                         this.rightList.push(event.data);
                     }
-                    event.data.draggable = false;
+                    else if (this.rightList.indexOf(event.data) > -1 && box.left < this.$refs.leftList.getBoundingClientRect().right) {
+                        this.rightList.splice(this.rightList.indexOf(event.data), 1);
+                        this.leftList.push(event.data);
+                    }
                     event.event.target.parentElement.style.top = 0;
                     event.event.target.parentElement.style.left = 0;
                 })
