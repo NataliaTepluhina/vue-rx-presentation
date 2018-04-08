@@ -32,6 +32,7 @@
     .container.app-container {
         align-items: start;
         max-width: 1240px;
+        padding: 30px;
     }
     .footer-text {
         padding-left: 20px;

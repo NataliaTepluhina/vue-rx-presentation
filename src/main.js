@@ -4,6 +4,9 @@ import router from "./router";
 import "./registerServiceWorker";
 import 'vuetify/dist/vuetify.min.css'
 import Vuetify from 'vuetify'
+import Rx from 'rxjs/Rx'
+import VueRx from 'vue-rx'
+Vue.use(VueRx, Rx);
 
 Vue.use(Vuetify);
 
