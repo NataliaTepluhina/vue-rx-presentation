@@ -1,8 +1,10 @@
 <template>
     <v-app id="inspire">
         <v-toolbar color="teal darken-2" dark fixed app>
-            <img class="logo" src="./assets/logo.png" alt="Logo">
-            <v-toolbar-title class="hidden-xs">Vue + RxJS</v-toolbar-title>
+            <router-link to="/search">
+                <img class="logo" src="./assets/logo.png" alt="Logo">
+            </router-link>
+            <v-toolbar-title class="hidden-xs-only">Vue + RxJS</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-toolbar-items>
                 <v-btn flat to="/search">Search</v-btn>
@@ -29,7 +31,7 @@
 </script>
 
 <style>
-    .container.app-container {
+    .container.app-container.fluid.fill-height {
         align-items: start;
         max-width: 1240px;
         padding: 30px;
