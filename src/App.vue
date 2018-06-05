@@ -9,7 +9,6 @@
             <v-toolbar-items>
                 <v-btn flat to="/search">Search</v-btn>
                 <v-btn flat to="/draggable">Draggable</v-btn>
-                <v-btn flat to="/api">API</v-btn>
             </v-toolbar-items>
         </v-toolbar>
         <v-content class="teal lighten-3">
