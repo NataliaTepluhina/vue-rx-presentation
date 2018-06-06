@@ -1,46 +1,46 @@
 export default [
     {
         name: 'Evan You',
-        twitterHandle: 'youyuxi'
+        github: 'yyx990803'
     },
     {
         name: 'Edd Yerburgh',
-        twitterHandle: 'EddYerburgh'
+        github: 'eddyerburgh'
     },
     {
         name: 'Sarah Drasner',
-        twitterHandle: 'sarah_edo'
+        github: 'sdras'
     },
     {
         name: 'Jen Looper',
-        twitterHandle: 'jenlooper'
+        github: 'jlooper'
     },
     {
         name: 'Sebastien Chopin',
-        twitterHandle: 'Atinux'
+        github: 'Atinux'
     },
     {
         name: 'Alexandre Chopin',
-        twitterHandle: '_achopin'
+        github: 'alexchopin'
     },
     {
         name: 'Guillaume Chau',
-        twitterHandle: 'Akryum'
+        github: 'Akryum'
     },
     {
         name: 'Alex Kyriakidis',
-        twitterHandle: 'hootlex'
+        github: 'hootlex'
     },
     {
         name: 'Blake Newman',
-        twitterHandle: 'blakenewman '
+        github: 'blake-newman '
     },
     {
         name: 'Eduardo San Martin Morote',
-        twitterHandle: 'posva'
+        github: 'posva'
     },
     {
         name: 'Chris Fritz',
-        twitterHandle: 'chrisvfritz'
+        github: 'chrisvfritz'
     },
 ]
