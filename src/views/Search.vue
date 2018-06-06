@@ -11,20 +11,20 @@
                 </template>
             </v-list>
             <v-subheader v-else>No results found</v-subheader>
-            <div>{{searchResults}}</div>
+            <div v-for="repo in searchResults">{{repo.name}}</div>
         </v-flex>
     </v-layout>
 </template>
 
 <script>
-    import {debounceTime, distinctUntilChanged, map, startWith, switchMap, concatAll, scan} from 'rxjs/operators'
+    import {debounceTime, distinctUntilChanged, map, startWith, switchMap, concatAll, scan, filter, combineLatest} from 'rxjs/operators'
     import { from } from 'rxjs/observable/from';
     import axios from 'axios';
     import vuers from '../data/vuers'
 
     axios.defaults.baseURL = 'https://api.github.com';
     const axiosHeader = {
-        Authorization: `Bearer 9b9a60cdf348e2e944cd7ac726c247c3cadc154e`
+        Authorization: `Bearer `
     };
 
     export default {
@@ -34,13 +34,18 @@
             }
         },
         computed: {
-            filtered() {
+            searchString$() {
                 return this.userInput$
                     .pipe(
                         map(input => input.event.target.value),
                         debounceTime(500),
                         startWith(''),
                         distinctUntilChanged(),
+                    )
+            },
+            filtered$() {
+                return this.searchString$
+                    .pipe(
                         map(value => {
                             const pattern = new RegExp(value, 'i');
                             return this.vuers.filter(el => el.name.match(pattern))
@@ -51,9 +56,11 @@
         domStreams: ['userInput$'],
         subscriptions() {
             return {
-                filteredNames: this.filtered,
-                searchResults: this.filtered.pipe(
-                    map(names => this.getUserRepos(names)),
+                filteredNames: this.filtered$,
+                searchResults: this.filtered$.pipe(
+                    combineLatest(this.searchString$),
+                    filter(([names, searchString]) => searchString.length),
+                    map(([names, _]) => this.getUserRepos(names)),
                     switchMap(queries => from(queries)),
                     concatAll(),
                     map(result => result.data),
@@ -66,7 +73,8 @@
         },
         methods: {
             getUserRepos(users) {
-                return users.map(user => axios.get(`/users/${user.github}/repos`, { headers: axiosHeader }))
+                return users.map(user => axios.get(`/users/${user.github}/repos?page=1&per_page=5&sort=pushed`,
+                    { headers: axiosHeader }))
             }
         },
     }
