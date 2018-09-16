@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.0.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.9fd52a2f5d9f1163a8064ac739be2d6f.js"
+  "/precache-manifest.34083c2b0ca550797f26320588814396.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "vue-rx-presentatopn"});
