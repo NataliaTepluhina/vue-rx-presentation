@@ -24,7 +24,7 @@
 
     axios.defaults.baseURL = 'https://api.github.com';
     const axiosHeader = {
-        Authorization: `Bearer `
+        Authorization: `Bearer 116b0062e6fb7707c526c9acba6f964eccfb1728`
     };
 
     export default {
